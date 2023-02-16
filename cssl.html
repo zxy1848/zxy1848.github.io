@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>传说圣灵模拟器</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-size: 0;
+        }
+        #activity{
+            min-width: 320px;
+            max-width: 960px;
+            margin: 0 auto;
+            font-size: 0;
+        }
+        #activity > div{
+            width: 33.333%;
+            height: 40px;
+            display: inline-block;
+            line-height: 40px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        #activity > div > a{
+            color: #ffffff;
+            font-size: 16px;
+            text-decoration: none;
+            width: 100%;
+            height: 40px;
+            display: inline-block;
+        }
+        #activity > div:nth-child(1){
+            background: #5FB878;
+        }
+        #activity > div:nth-child(2){
+            background: #1e9fff;
+        }
+        #activity > div:nth-child(3){
+            background: #ffb800;
+        }
+        .body-box{
+            min-width: 320px;
+            max-width: 960px;
+            width: auto;
+            margin: auto;
+            padding: 0 0 50px;
+            background: url("static/img/cssl/bg.png") no-repeat;
+            background-size: cover;
+        }
+        .header{
+            min-width: 320px;
+            max-width: 960px;
+            width: auto;
+            margin: auto;
+        }
+        #menu{
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid #ffffff;
+        }
+        #menu > div{
+            font-size: 16px;
+            color: #ffffff;
+            text-align: center;
+            display: inline-block;
+            margin: 5px;
+            background-color: #5FB878;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .key{
+            min-width: 320px;
+            max-width: 560px;
+            margin: auto;
+            padding: 30px 0 20px;
+            line-height: 30px;
+            color: #864616;
+            font-size: 16px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .key > span{
+            color: #864616;
+            font-size: 16px;
+        }
+        .key-num{
+            margin-right: 20px;
+        }
+        .score-count{
+        }
+        .record{
+        }
+        .key-add{
+            width: 100%;
+            text-align: center;
+        }
+        .key-add > div{
+            margin-right: 5px;
+            width: 125px;
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            box-sizing: border-box;
+            padding: 0;
+            cursor: pointer;
+            background-color: rgb(234,192,93);
+            border-radius: 3px;
+            color: #864616;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .key-add-1{
+            margin-right: 10px;
+        }
+        .key-add-11{
+            margin-left: 10px;
+        }
+
+        .pond{
+            min-width: 320px;
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .lottery{
+            margin-top: 30px;
+            text-align: center;
+        }
+        .lottery > div{
+            width: 145px;
+            /*margin: 0 10px;*/
+            display: inline-block;
+            cursor: pointer;
+        }
+        .lottery-1{
+            margin-right: 5px;
+        }
+
+        .lottery-10{
+            margin-left: 5px;
+        }
+
+        .temp-store{
+            text-align: center;
+            box-sizing: border-box;
+            min-width: 320px;
+            max-width: 500px;
+            margin: 50px auto 0;
+            padding-top: 30px;
+            background-size: 100% 100%;
+        }
+        .temp-store > div{
+            margin: 10px auto;
+        }
+        .ts-title{
+            text-align: center;
+            color: #864616;
+            font-size: 28px;
+            line-height: 1.1;
+            font-weight: bold;
+            padding-top: 20px;
+        }
+        .ts-img{
+            width: 223px;
+            height: 213px;
+            background: url("static/img/ssgw/baoxiang.png") no-repeat;
+            background-size: cover;
+
+        }
+        .ts-view-img{
+            width: 150px;
+            height: 40px;
+            margin: 20px auto 0;
+            cursor: pointer;
+        }
+        .probability{
+            min-width: 320px;
+            max-width: 960px;
+            margin: 50px auto;
+        }
+
+        .disclaimer{
+            min-width: 320px;
+            max-width: 960px;
+            margin: 100px auto 0;
+            padding: 0 20px;
+            color: #864616;
+        }
+
+        #dialog-data,#dialog-data-assign{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin: -250px 0 0 -250px;
+            display: none;
+            width: 500px;
+            background: url("static/img/cssl/bg.png") repeat;
+            background-size: 100% 100%;
+            z-index: 9990;
+        }
+        #dialog-data-assign{
+            z-index: 9991;
+        }
+
+        #shade{
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9985;
+            display: none;
+        }
+        #dialog-data-header,#dialog-data-assign-header{
+            width: 100%;
+            height: 40px;
+            border-bottom: 1px solid #864616;
+        }
+        #dialog-data-hint,#dialog-data-assign-hint{
+            float: left;
+            font-size: 16px;
+            margin-left: 10px;
+            line-height: 40px;
+            color: #864616;
+        }
+        #dialog-data-close,#dialog-data-assign-close{
+            width: 40px;
+            height: 40px;
+            color: #864616;
+            float: right;
+            font-size: 24px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+        }
+        #dialog-data-content,#dialog-data-assign-content{
+            width: 100%;
+            height: 300px;
+            box-sizing: border-box;
+            padding: 0 10px;
+            background: url("static/img/cssl/bg.png") repeat;
+            background-size: 100% 100%;
+            color: #864616;
+            overflow-y: auto;
+        }
+        #defined-ul{
+            text-align: center;
+            margin: 10px 0;
+        }
+        #defined-ul > li{
+            margin: 5px 0;
+        }
+        #defined-ul input{
+            font-size: 16px;
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+        }
+        #defined-ul > li > input:nth-child(1){
+            width: 75%;
+        }
+        #defined-ul > li > input:nth-child(2){
+            width: 20%;
+        }
+
+        #defined-save{
+            width: 97%;
+            margin: 10px auto;
+            font-size: 0;
+        }
+
+        #defined-save > div{
+            width: 50%;
+            height: 35px;
+            display: inline-block;
+            line-height: 35px;
+            text-align: center;
+            font-size: 18px;
+            color: #ffffff;
+        }
+        #defined-save > div:nth-child(1){
+            background: #1e9fff;
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+        }
+        #defined-save > div:nth-child(2){
+            background: #ffb800;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+        }
+
+
+        #assign-box{
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        #assign-select{
+            width: 60%;
+            font-size: 16px;
+            padding: 5px;
+            margin: 5px 0;
+            vertical-align: middle;
+        }
+        #assign-select > option{
+            font-size: 16px;
+            padding: 0;
+        }
+
+        #assign-mode{
+            width: 30%;
+            font-size: 16px;
+            padding: 5px;
+            vertical-align: middle;
+        }
+        #assign-mode > option{
+            font-size: 16px;
+            padding: 0;
+        }
+
+
+        #assign-execute,#assign-avg{
+            width: calc(45% - 2px);
+            font-size: 16px;
+            color: #ffffff;
+            text-align: center;
+            display: inline-block;
+            /*margin-left: 5px;*/
+            background-color: #31BDEC;
+            border-radius: 5px;
+            padding: 5px 0;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        #assign-execute{
+            margin-right: 2px;
+        }
+        #assign-avg{
+            background-color: #5FB878;
+            margin-left: 2px;
+        }
+
+        #assign-result{
+            margin: 10px 0;
+        }
+        #assign-result > ul > li{
+            border-bottom: 1px solid;
+        }
+
+        #assign-result > ul > li > span{
+            display: inline-block;
+            font-size: 12px;
+            margin: 10px 10px 5px 0;
+        }
+        #assign-result > ul > li > span:nth-child(1){
+            margin: 10px 0 5px 0;
+        }
+
+        #assign-result > ul > li > .assign-record{
+            margin: 0;
+            font-size: 12px;
+            color: #ffffff;
+            text-align: center;
+            display: inline-block;
+            background-color: #FFB800;
+            border-radius: 5px;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
+        @media screen and (max-width: 768px){
+            #dialog-data,#dialog-data-assign{
+                top:calc(50% - 250px);
+                left: 5px;
+                right: 5px;
+                width: auto;
+                margin:0;
+            }
+            #dialog-data-content,#dialog-data-assign-content{
+                height: 500px;
+            }
+        }
+        @media screen and (min-width: 768px){
+            #dialog-data,#dialog-data-assign{
+                top: 50%;
+                bottom: 300px;
+                left: 50%;
+                margin: -300px 0 0 -250px;
+            }
+            #dialog-data-content,#dialog-data-assign-content{
+                height: 600px;
+            }
+        }
+        .temp-prop-list{
+            margin: 10px 0;
+            list-style:none;
+        }
+        .temp-prop-list > li{
+            clear: both;
+            border-bottom: 1px solid;
+            height: 40px;
+            line-height: 40px;
+        }
+        .temp-prop-list > li > span{
+            margin: 5px 0;
+        }
+        .temp-prop-list > li > a{
+            margin: 5px 0;
+        }
+        .temp-prop-name{
+            float: left;
+            font-size: 16px;
+        }
+        .resolve{
+            float: right;
+            width: 85px;
+            text-align: right;
+            font-size: 16px;
+        }
+        .resolve-key-num{
+            float: right;
+            width: 30px;
+            text-align: right;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .draw-num{
+            font-size: 16px;
+            color: #864616;
+            margin: 10px 0;
+        }
+        .data-list{
+            margin: 10px 0;
+            list-style:none;
+        }
+        .data-list > li{
+            clear: both;
+            border-bottom: 1px solid;
+            height: 40px;
+            line-height: 40px;
+            color: #864616;
+        }
+        .data-list > li > span{
+            margin: 5px 0;
+        }
+        .data-name{
+            float: left;
+            font-size: 16px;
+        }
+        .data-num{
+            float: right;
+            min-width: 30px;
+            text-align: right;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        #prize10-dialog{
+            width: 320px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -225px;
+            margin-left: -160px;
+            background: url("static/img/cssl/lottery-bg.png") no-repeat;
+            background-size: 100% 100%;
+            box-sizing: border-box;
+            padding: 0 15px;
+            display: none;
+            z-index: 9999;
+        }
+
+        #prize1-dialog{
+            width: 320px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -122px;
+            margin-left: -160px;
+            background: url("static/img/cssl/lottery-bg.png") no-repeat;
+            background-size: 100% 100%;
+            box-sizing: border-box;
+            padding: 0 15px;
+            display: none;
+            z-index: 9999;
+        }
+        .prize-title{
+            text-align: center;
+            font-size: 24px;
+            color: #864616;
+            margin: 20px 0 0;
+        }
+        .prize-hint{
+            font-size: 12px;
+            color: #864616;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            padding: 20px 5px 5px;
+        }
+        #prize10-list{
+            width: 100%;
+            height: 270px;
+            list-style: none;
+            margin-top: 8px;
+        }
+        #prize1-list{
+            width: 100%;
+            height: 27px;
+            list-style: none;
+            margin: 20px 0;
+        }
+        .prize-item{
+            width: 100%;
+            height: 27px;
+            font-size: 12px;
+            line-height: 27px;
+            text-align: center;
+            color: #FEF1D6;
+            background:url("static/img/cssl/item.png");
+        }
+        .warm-prompt{
+            font-size: 12px;
+            color: #864616;
+            width: 100%;
+            margin: 10px 0 35px;
+            box-sizing: border-box;
+            padding: 0 5px;
+            text-align: center;
+        }
+        .prize-dialog-close{
+            width: 25px;
+            height: 25px;
+            position: absolute;
+            top: -15px;
+            right: -20px;
+            background: url("static/img/close.png") no-repeat;
+            background-size: cover;
+        }
+
+        #dialog{
+            width: 280px;
+            height: 140px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -70px;
+            margin-left: -140px;
+            background: white;
+            border-radius: 3px;
+            z-index: 99999;
+            display: none;
+        }
+        #dialog-title{
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            background: #2196F3;
+            box-sizing: border-box;
+            padding: 0px 5px;
+            font-size: 16px;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        #dialog-btn{
+            width: auto;
+            height: 30px;
+            line-height: 30px;
+            background: #2196F3;
+            box-sizing: border-box;
+            padding: 0px 5px;
+            font-size: 16px;
+            color: #fff;
+            border-radius: 3px;
+            border-top: solid 1px #eae8e8;
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            right: 2px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #msg{
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 16px;
+            background-color: rgba(0,0,0,0.65);
+            border-radius: 3px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -20px;
+            margin-left: -60px;
+            padding: 0 5px;
+            display: none;
+            z-index: 9999;
+        }
+
+        #loading{
+            width: 16px;
+            height: 16px;
+            position: fixed;
+            top:50%;
+            left: 50%;
+            margin-top: -8px;
+            margin-left: -8px;
+            background: url("static/img/load.gif") no-repeat 100%;
+            background-size: cover;
+            z-index: 9993;
+            display: none;
+        }
+    </style>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "JoSOCHPCXJ5VeUJR",ck: "JoSOCHPCXJ5VeUJR"})</script>
+</head>
+<body>
+<div id="activity">
+    <div>
+        <div id="home"></div>
+    </div>
+    <div>
+        <a href="https://act.daoju.qq.com/act/a20230103makewishm/index.html" target="_blank">电脑活动地址</a>
+    </div>
+    <div>
+        <a href="https://app.daoju.qq.com/act/a20230103makewishm/index.html" target="_blank">手机活动地址</a>
+    </div>
+</div>
+<div id="adv"></div>
+<div class="header">
+    <img src="static/img/cssl/banner.png" width="100%" height="100%">
+</div>
+<div class="body-box">
+    <div id="menu">
+        <div id="model" onclick="switchModel()">标准模式</div>
+        <div id="clear" onclick="clearData()">清空数据</div>
+        <div id="statistic" onclick="viewStatistic()">中奖统计</div>
+        <div id="user-defined" onclick="userDefined()">自定概率</div>
+        <div id="assign-prop" onclick="assignProp()">指定道具</div>
+    </div>
+    <div class="draw">
+        <div class="key">
+            当前剩余钥匙：<span class="key-num"> </span>
+            累计圣灵币：<span class="score-count"> </span>
+        </div>
+        <div class="key-add">
+            <div class="key-add-1" onclick="addKey(1)" title="增加1个钥匙">
+                增加1个钥匙
+            </div>
+            <div class="key-add-11" onclick="addKey(11)" title="增加11个钥匙">
+                增加11个钥匙
+            </div>
+        </div>
+        <div class="pond">
+            <img src="static/img/cssl/pc_lottery.png" width="100%">
+        </div>
+        <div class="lottery">
+            <div class="lottery-1" onclick="draw(1)" title="进行一次抽奖">
+                <img src="static/img/cssl/lottery-1.png" width="100%">
+            </div>
+            <div class="lottery-10" onclick="draw(10)" title="进行一次十连抽">
+                <img src="static/img/cssl/lottery-10.png" width="100%">
+            </div>
+        </div>
+    </div>
+    <div class="temp-store">
+        <h3 class="ts-title">暂存箱</h3>
+        <p style="width: 80%;margin: auto; text-align: center;color: #864616;font-size: 14px;">抽奖获得的可分解道具存放在 【暂存箱】中，可用来分解成钥匙</p>
+        <div class="ts-img"></div>
+        <div class="ts-view">
+            <div class="ts-view-img" onclick="viewTempStore()">
+                <img src="static/img/cssl/storage-box-view.png" width="100%" height="100%">
+            </div>
+        </div>
+    </div>
+    <div class="probability">
+        <img src="static/img/cssl/gl.png" width="100%" style="margin: 50px auto">
+    </div>
+    <div class="disclaimer">
+        <p style="font-size: 25px">声明：</p>
+        <p style="font-size: 16px">本页面仅做为模拟娱乐，中奖概率不代表官方概率，抽中的道具也不会发往仓库。如有侵权联系即删～</p>
+        <p style="font-size: 16px">联系邮箱：cferxbs@88.com</p>
+    </div>
+</div>
+<div id="shade"></div>
+<div id="dialog">
+    <h3 id="dialog-title"></h3>
+    <div id="dialog-content"></div>
+    <div id="dialog-btn" onclick="closeDialog()">确认</div>
+</div>
+<div id="prize10-dialog">
+    <div class="prize-dialog-close" onclick="closePrize10Dialog()"></div>
+    <h2 class="prize-title">中奖信息</h2>
+    <div class="prize-hint">抽奖过程中请勿刷新页面，否则会丢失记录并重置抽奖数据。</div>
+    <ul id="prize10-list"></ul>
+    <div class="warm-prompt">
+        温馨提示:1.此页面为模拟抽奖，虚拟道具奖品不会发到您的游戏仓库。中奖概率不代表官方概率，抽中的道具也不会发往仓库。
+    </div>
+</div>
+<div id="prize1-dialog">
+    <div class="prize-dialog-close" onclick="closePrize1Dialog()"></div>
+    <h2 class="prize-title">中奖信息</h2>
+    <div class="prize-hint">抽奖过程中请勿刷新页面，否则会丢失记录并重置抽奖数据。</div>
+    <ul id="prize1-list"></ul>
+    <div class="warm-prompt">
+        温馨提示:1.此页面为模拟抽奖，虚拟道具奖品不会发到您的游戏仓库。中奖概率不代表官方概率，抽中的道具也不会发往仓库。
+    </div>
+</div>
+<div id="dialog-data">
+    <div style="width: 100%;height: 40px">
+        <div id="dialog-data-header">
+            <div id="dialog-data-hint">提示</div>
+            <div id="dialog-data-close" onclick="closeDialogData()">&#10006;</div>
+        </div>
+        <div id="dialog-data-content">
+        </div>
+    </div>
+</div>
+<div id="dialog-data-assign">
+    <div style="width: 100%;height: 40px">
+        <div id="dialog-data-assign-header">
+            <div id="dialog-data-assign-hint">提示</div>
+            <div id="dialog-data-assign-close" onclick="closeDialogAssignData()">&#10006;</div>
+        </div>
+        <div id="dialog-data-assign-content">
+        </div>
+    </div>
+</div>
+<div id="msg">
+    系统提示
+</div>
+
+<div id="loading"></div>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+    var keyNum = 110;
+    var scoreCount = 0;
+    var tempStore = new Map;
+    var index = 0;
+    var model = 0;
+    var drawNum = 0;
+    var statisticMap = new Map();
+    /*指定道具*/
+    var addKeyNum = 0;
+    var resolveKeyNum = 0;
+    var score = 0;
+    var getWay = 0;
+    var assignIndex = 0;
+    var assignFlag = false;
+    var assignResultMap = new Map();
+    var recordAllMap = new Map();
+    var recordMap = initRecordMap();
+
+    $(function (){
+        alert("声明：\n " +
+            "模拟器");
+        $(".key-num").text(keyNum);
+        $(".score-count").text(scoreCount);
+        $("#home").load("home.html");
+        $("#adv").load("adv.html");
+    });
+
+    const fixedRate = [
+        [1,10,'传说圣灵 无序列号版'],
+        [11,20, '传说女帝'],
+        [21,40, '王者霜心（非觉醒版）'],
+        [41,70, '王者沙漠玫瑰'],
+        [71,100, '觉醒版王者之决'],
+        [101,150, '炫金骑士'],
+        [151,210, 'Barrett-极光'],
+        [211,300, 'AN94-超新星'],
+        [301,450, '运动护目镜'],
+        [451,600, '超级对讲机'],
+        [601,1410, '王者之石x1'],
+        [1411,1420, '圣灵币x100'],
+        [1421,1500, '圣灵币x50'],
+        [1501,2500, '圣灵币x20'],
+        [2501,6000, '圣灵币x10'],
+        [6001,10000, '圣灵币x5'],
+    ];
+
+    var dynamicRate = [
+        [1,10,'传说圣灵 无序列号版'],
+        [11,20, '传说女帝'],
+        [21,40, '王者霜心（非觉醒版）'],
+        [41,70, '王者沙漠玫瑰'],
+        [71,100, '觉醒版王者之决'],
+        [101,150, '炫金骑士'],
+        [151,210, 'Barrett-极光'],
+        [211,300, 'AN94-超新星'],
+        [301,450, '运动护目镜'],
+        [451,600, '超级对讲机'],
+        [601,1410, '王者之石x1'],
+        [1411,1420, '圣灵币x100'],
+        [1421,1500, '圣灵币x50'],
+        [1501,2500, '圣灵币x20'],
+        [2501,6000, '圣灵币x10'],
+        [6001,10000, '圣灵币x5'],
+    ];
+
+
+    statisticMap.set('传说圣灵 无序列号版',0);
+    statisticMap.set('传说女帝',0);
+    statisticMap.set('王者霜心（非觉醒版）',0);
+    statisticMap.set('王者沙漠玫瑰',0);
+    statisticMap.set('觉醒版王者之决',0);
+    statisticMap.set('炫金骑士',0);
+    statisticMap.set('Barrett-极光',0);
+    statisticMap.set('AN94-超新星',0);
+    statisticMap.set('运动护目镜',0);
+    statisticMap.set('超级对讲机',0);
+    statisticMap.set('王者之石x1',0);
+    statisticMap.set('圣灵币x100',0);
+    statisticMap.set('圣灵币x50',0);
+    statisticMap.set('圣灵币x20',0);
+    statisticMap.set('圣灵币x10',0);
+    statisticMap.set('圣灵币x5',0);
+
+    const destroyMap = new Map();
+    destroyMap.set('传说圣灵 无序列号版',48);
+    destroyMap.set('传说女帝',48);
+    destroyMap.set('王者霜心（非觉醒版）',24);
+    destroyMap.set('王者沙漠玫瑰',12);
+    destroyMap.set('觉醒版王者之决',12);
+    destroyMap.set('炫金骑士',7);
+    destroyMap.set('Barrett-极光',6);
+    destroyMap.set('AN94-超新星',3);
+    destroyMap.set('运动护目镜',2);
+    destroyMap.set('超级对讲机',2);
+
+
+    const scoreMap = new Map();
+    scoreMap.set('圣灵币x100',100);
+    scoreMap.set('圣灵币x50',50);
+    scoreMap.set('圣灵币x20',20);
+    scoreMap.set('圣灵币x10',10);
+    scoreMap.set('圣灵币x5',5);
+
+
+    const exchangeMap = new Map();
+    exchangeMap.set('传说圣灵 无序列号版',4200);
+    exchangeMap.set('传说女帝',4200);
+    exchangeMap.set('王者霜心（非觉醒版）',2100);
+    exchangeMap.set('王者沙漠玫瑰',1000);
+    exchangeMap.set('觉醒版王者之决',1000);
+    exchangeMap.set('炫金骑士',550);
+    exchangeMap.set('Barrett-极光',460);
+    exchangeMap.set('AN94-超新星',280);
+    exchangeMap.set('运动护目镜',170);
+    exchangeMap.set('超级对讲机',170);
+
+
+
+    function addKey(Xs1) {
+        if (model === 1) {
+            keyNum = $("\x2e\x6b\x65\x79\x2d\x6e\x75\x6d")["\x74\x65\x78\x74"]();
+            keyNum = window["\x4e\x75\x6d\x62\x65\x72"](keyNum) + window["\x4e\x75\x6d\x62\x65\x72"](Xs1);
+            $("\x2e\x6b\x65\x79\x2d\x6e\x75\x6d")["\x74\x65\x78\x74"](keyNum);
+        } else {
+            openLoad();
+            setTimeout(function() {
+                    keyNum = $("\x2e\x6b\x65\x79\x2d\x6e\x75\x6d")["\x74\x65\x78\x74"]();
+                    keyNum = window["\x4e\x75\x6d\x62\x65\x72"](keyNum) + window["\x4e\x75\x6d\x62\x65\x72"](Xs1);
+                    $("\x2e\x6b\x65\x79\x2d\x6e\x75\x6d")["\x74\x65\x78\x74"](keyNum);
+                    let content = "\x3c\x70 \x73\x74\x79\x6c\x65\x3d\x27\x74\x65\x78\x74\x2d\x61\x6c\x69\x67\x6e\x3a \x63\x65\x6e\x74\x65\x72\x3b\x6d\x61\x72\x67\x69\x6e\x2d\x74\x6f\x70\x3a \x32\x30\x70\x78\x3b\x66\x6f\x6e\x74\x2d\x73\x69\x7a\x65\x3a \x31\x36\x70\x78\x27\x3e\u606d\u559c\u4f60\u83b7\u5f97 " + Xs1 + " \u628a\u94a5\u5319\x3c\x2f\x70\x3e";
+                    closeLoad();
+                    openDialog("\u7cfb\u7edf\u6d88\u606f", content);
+                },
+                200);
+        }
+    }
+    function draw(fS2) {
+        if (keyNum < fS2) return window["\x61\x6c\x65\x72\x74"]("\u94a5\u5319\u4e0d\u8db3");
+        openLoad();
+        let delayTime = (model === 1 ? 0 : 200);
+        setTimeout(function() {
+                let prizeList = $("\x23\x70\x72\x69\x7a\x65\x31\x30\x2d\x6c\x69\x73\x74");
+                if (fS2 === 1) {
+                    $("\x23\x70\x72\x69\x7a\x65\x31\x2d\x64\x69\x61\x6c\x6f\x67")["\x73\x68\x6f\x77"]();
+                    prizeList = $("\x23\x70\x72\x69\x7a\x65\x31\x2d\x6c\x69\x73\x74");
+                } else {
+                    $("\x23\x70\x72\x69\x7a\x65\x31\x30\x2d\x64\x69\x61\x6c\x6f\x67")["\x73\x68\x6f\x77"]();
+                    prizeList = $("\x23\x70\x72\x69\x7a\x65\x31\x30\x2d\x6c\x69\x73\x74");
+                }
+                prizeList["\x68\x74\x6d\x6c"]("");
+                openShade();
+                for (let i = 0; i < fS2; i++) {
+                    setTimeout(function() {
+                            var DVH3 = window["\x4d\x61\x74\x68"]["\x63\x65\x69\x6c"](window["\x4d\x61\x74\x68"]["\x72\x61\x6e\x64\x6f\x6d"]() * 10000);
+                            var AR4 = '';
+                            for (j = 0; j < dynamicRate["\x6c\x65\x6e\x67\x74\x68"]; j++) {
+                                var vNdH5 = dynamicRate[j][0];
+                                var VowdmcdP6 = dynamicRate[j][1];
+                                if (DVH3 >= vNdH5 && DVH3 <= VowdmcdP6) {
+                                    AR4 = dynamicRate[j][2];
+                                    if (destroyMap["\x68\x61\x73"](AR4)) {
+                                        var CBPbAJ7 = {
+                                            name: AR4,
+                                            status: 0,
+                                            keyNum: destroyMap["\x67\x65\x74"](AR4)
+                                        };
+                                        tempStore["\x73\x65\x74"](index++, CBPbAJ7);
+                                    } else if (scoreMap["\x68\x61\x73"](AR4)) {
+                                        scoreCount += scoreMap["\x67\x65\x74"](AR4);
+                                    }
+                                    var lLVPyKYF8 = statisticMap["\x67\x65\x74"](AR4);
+                                    lLVPyKYF8++;
+                                    statisticMap["\x73\x65\x74"](AR4, lLVPyKYF8);
+                                }
+                            }
+                            prizeList["\x61\x70\x70\x65\x6e\x64"]("\x3c\x6c\x69 \x63\x6c\x61\x73\x73\x3d\x27\x70\x72\x69\x7a\x65\x2d\x69\x74\x65\x6d\x27\x3e" + AR4 + "\x3c\x2f\x6c\x69\x3e");
+                        },
+                        i * (model === 1 ? 0 : 400));
+                }
+                keyNum = window["\x4e\x75\x6d\x62\x65\x72"](keyNum) - window["\x4e\x75\x6d\x62\x65\x72"](fS2);
+                drawNum = window["\x4e\x75\x6d\x62\x65\x72"](drawNum) + window["\x4e\x75\x6d\x62\x65\x72"](fS2);
+                $("\x2e\x6b\x65\x79\x2d\x6e\x75\x6d")["\x74\x65\x78\x74"](keyNum);
+                $("\x2e\x73\x63\x6f\x72\x65\x2d\x63\x6f\x75\x6e\x74")["\x74\x65\x78\x74"](scoreCount);
+            },
+            delayTime);
+        closeLoad();
+    }
+    function switchModel() {
+        if (model === 0) {
+            model = 1;
+            $("\x23\x6d\x6f\x64\x65\x6c")["\x74\x65\x78\x74"]("\u6025\u901f\u6a21\u5f0f");
+            msg("\u5df2\u5173\u95ed\u52a0\u8f7d\u52a8\u4f5c");
+        } else {
+            model = 0;
+            $("\x23\x6d\x6f\x64\x65\x6c")["\x74\x65\x78\x74"]("\u6807\u51c6\u6a21\u5f0f");
+            msg("\u5df2\u5f00\u542f\u52a0\u8f7d\u52a8\u4f5c");
+        }
+    }
+    function clearData() {
+        keyNum = 110;
+        scoreCount = 0;
+        tempStore = new Map;
+        index = 0;
+        drawNum = 0;
+        for (let data of statisticMap["\x6b\x65\x79\x73"]()) {
+            statisticMap["\x73\x65\x74"](data, 0);
+        }
+        $("\x2e\x6b\x65\x79\x2d\x6e\x75\x6d")["\x74\x65\x78\x74"](keyNum);
+        $("\x2e\x73\x63\x6f\x72\x65\x2d\x63\x6f\x75\x6e\x74")["\x74\x65\x78\x74"](scoreCount);
+        msg("\u62bd\u5956\u8bb0\u5f55\u5df2\u6e05\u7a7a");
+    }
+    function getStatisticHtml() {
+        var pnhqnfR9 = "\x3c\x64\x69\x76 \x63\x6c\x61\x73\x73\x3d\x27\x64\x72\x61\x77\x2d\x6e\x75\x6d\x27\x3e\u60a8\u5df2\u62bd " + drawNum + " \u6b21\x3c\x2f\x64\x69\x76\x3e" + "\x3c\x75\x6c \x63\x6c\x61\x73\x73\x3d\x27\x64\x61\x74\x61\x2d\x6c\x69\x73\x74\x27\x3e";
+        for (let data of statisticMap["\x6b\x65\x79\x73"]()) {
+            let dataNum = statisticMap["\x67\x65\x74"](data);
+            var F_s$I10 = '\x3c\x6c\x69\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x64\x61\x74\x61\x2d\x6e\x61\x6d\x65\x22\x3e' + data + '\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x64\x61\x74\x61\x2d\x6e\x75\x6d\x22\x3e' + dataNum + ' \u4e2a\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x2f\x6c\x69\x3e';
+            pnhqnfR9 += F_s$I10;
+        }
+        pnhqnfR9 += "\x3c\x2f\x75\x6c\x3e";
+        return pnhqnfR9;
+    }
+    function viewStatistic() {
+        setTimeout(function() {
+                var OGrWCNg11 = getStatisticHtml();
+                openDialogData('\u4e2d\u5956\u4fe1\u606f', OGrWCNg11);
+            },
+            100);
+    }
+    function getDynamicRateHtml() {
+        let html = '\x3c\x75\x6c \x69\x64\x3d\x22\x64\x65\x66\x69\x6e\x65\x64\x2d\x75\x6c\x22\x3e';
+        for (let i = 0; i < dynamicRate["\x6c\x65\x6e\x67\x74\x68"]; i++) {
+            let propName = dynamicRate[i][2];
+            let number1 = dynamicRate[i][0];
+            let number2 = dynamicRate[i][1];
+            let rate = (number2 - number1 + 1) / 100;
+            rate = rate["\x74\x6f\x46\x69\x78\x65\x64"](2);
+            html += '\x3c\x6c\x69\x3e';
+            html += '\x3c\x69\x6e\x70\x75\x74 \x74\x79\x70\x65\x3d\x22\x74\x65\x78\x74\x22 \x76\x61\x6c\x75\x65\x3d\x22' + propName + '\x22 \x64\x69\x73\x61\x62\x6c\x65\x64\x2f\x3e';
+            html += '\x3c\x69\x6e\x70\x75\x74 \x74\x79\x70\x65\x3d\x22\x6e\x75\x6d\x62\x65\x72\x22 \x76\x61\x6c\x75\x65\x3d\x22' + rate["\x74\x6f\x53\x74\x72\x69\x6e\x67"](10) + '\x22\x2f\x3e';
+        }
+        html += '\x3c\x2f\x75\x6c\x3e';
+        html += '\x3c\x64\x69\x76 \x69\x64\x3d\x22\x64\x65\x66\x69\x6e\x65\x64\x2d\x73\x61\x76\x65\x22\x3e\x3c\x64\x69\x76 \x6f\x6e\x43\x6c\x69\x63\x6b\x3d\x22\x73\x61\x76\x65\x44\x65\x66\x69\x6e\x65\x64\x28\x29\x22\x3e\u4fdd\u5b58\x3c\x2f\x64\x69\x76\x3e\x3c\x64\x69\x76 \x6f\x6e\x43\x6c\x69\x63\x6b\x3d\x22\x72\x65\x73\x65\x74\x44\x65\x66\x69\x6e\x65\x64\x28\x29\x22\x3e\u91cd\u7f6e\x3c\x2f\x64\x69\x76\x3e\x3c\x2f\x64\x69\x76\x3e';
+        return html;
+    }
+    function userDefined() {
+        let dynamicRateHtml = getDynamicRateHtml();
+        openDialogData('\u81ea\u5b9a\u6982\u7387', dynamicRateHtml);
+    }
+    function saveDefined() {
+        let temp = dynamicRate;
+        dynamicRate = [];
+        let rateList = $("\x23\x64\x65\x66\x69\x6e\x65\x64\x2d\x75\x6c")["\x63\x68\x69\x6c\x64\x72\x65\x6e"]();
+        let start = 0;
+        for (let i = 0; i < rateList["\x6c\x65\x6e\x67\x74\x68"]; i++) {
+            let li = rateList[i];
+            let child = $(li)["\x63\x68\x69\x6c\x64\x72\x65\x6e"]()[1];
+            let val = $(child)["\x76\x61\x6c"]();
+            let rate = (val * 100);
+            let end = start + rate;
+            let item = [start + 1, end, temp[i][2]];
+            start += rate;
+            dynamicRate["\x70\x75\x73\x68"](item);
+        }
+        msg("\u6982\u7387\u5df2\u4fdd\u5b58");
+    }
+    function resetDefined() {
+        dynamicRate = fixedRate;
+        userDefined();
+        saveDefined();
+        msg("\u5df2\u6062\u590d\u9ed8\u8ba4\u6982\u7387");
+    }
+    function assignProp() {
+        let assignHtml = getAssignHtml();
+        openDialogData('\u6307\u5b9a\u9053\u5177', assignHtml);
+        addKeyNum = 0;
+        resolveKeyNum = 0;
+        score = 0;
+        getWay = 0;
+        assignIndex = 0;
+        $("\x23\x61\x73\x73\x69\x67\x6e\x2d\x72\x65\x73\x75\x6c\x74 \x3e \x75\x6c")["\x68\x74\x6d\x6c"]("");
+    }
+    function getAssignHtml() {
+        let html = '\x3c\x64\x69\x76 \x69\x64\x3d\x22\x61\x73\x73\x69\x67\x6e\x2d\x62\x6f\x78\x22\x3e' + '\x3c\x64\x69\x76 \x73\x74\x79\x6c\x65\x3d\x22\x74\x65\x78\x74\x2d\x61\x6c\x69\x67\x6e\x3a \x63\x65\x6e\x74\x65\x72\x22\x3e' + '\x3c\x64\x69\x76 \x73\x74\x79\x6c\x65\x3d\x22\x66\x6f\x6e\x74\x2d\x73\x69\x7a\x65\x3a \x31\x36\x70\x78\x3b\x74\x65\x78\x74\x2d\x61\x6c\x69\x67\x6e\x3a \x63\x65\x6e\x74\x65\x72\x22\x3e\u63d0\u793a\uff1a\u8be5\u7b97\u6cd5\u6709\u5f85\u6838\u9a8c\u4e14\u975e\u5927\u6837\u672c\u6570\u636e\uff0c\u8bd5\u8bd5\u5c31\u884c\uff0c\u522b\u5f53\u771f \x26\x23\x78\x31\x46\x36\x33\x33\x3b \u540e\u7eed\u4f1a\u52a0\u4e0a\u5355\u6b21\u7684\u62bd\u53d6\u660e\u7ec6\x3c\x2f\x64\x69\x76\x3e' + '\x3c\x73\x65\x6c\x65\x63\x74 \x69\x64\x3d\x22\x61\x73\x73\x69\x67\x6e\x2d\x73\x65\x6c\x65\x63\x74\x22\x3e' + '\x3c\x6f\x70\x74\x69\x6f\x6e\x3e\x2d\x2d\x2d\u8bf7\u9009\u62e9\x2d\x2d\x2d\x3c\x2f\x6f\x70\x74\x69\x6f\x6e\x3e';
+        for (let key of exchangeMap["\x6b\x65\x79\x73"]()) {
+            html += '\x3c\x6f\x70\x74\x69\x6f\x6e\x3e' + key + '\x3c\x2f\x6f\x70\x74\x69\x6f\x6e\x3e';
+        }
+        html += '\x3c\x2f\x73\x65\x6c\x65\x63\x74\x3e' + '\x3c\x73\x65\x6c\x65\x63\x74 \x69\x64\x3d\x22\x61\x73\x73\x69\x67\x6e\x2d\x6d\x6f\x64\x65\x22\x3e' + '\x3c\x6f\x70\x74\x69\x6f\x6e\x3e\u5355\u62bd\u6a21\u5f0f\x3c\x2f\x6f\x70\x74\x69\x6f\x6e\x3e' + '\x3c\x2f\x73\x65\x6c\x65\x63\x74\x3e' + '\x3c\x64\x69\x76 \x69\x64\x3d\x22\x61\x73\x73\x69\x67\x6e\x2d\x65\x78\x65\x63\x75\x74\x65\x22 \x6f\x6e\x43\x6c\x69\x63\x6b\x3d\x22\x61\x73\x73\x69\x67\x6e\x45\x78\x65\x63\x75\x74\x65\x28\x29\x22\x3e\u5f00\u62bd\x3c\x2f\x64\x69\x76\x3e' + '\x3c\x64\x69\x76 \x69\x64\x3d\x22\x61\x73\x73\x69\x67\x6e\x2d\x61\x76\x67\x22 \x6f\x6e\x43\x6c\x69\x63\x6b\x3d\x22\x61\x73\x73\x69\x67\x6e\x41\x76\x67\x28\x29\x22\x3e\u7b97\u5747\u4ef7\x3c\x2f\x64\x69\x76\x3e' + '\x3c\x2f\x64\x69\x76\x3e' + '\x3c\x2f\x64\x69\x76\x3e' + '\x3c\x68\x72\x3e' + '\x3c\x64\x69\x76 \x69\x64\x3d\x22\x61\x73\x73\x69\x67\x6e\x2d\x72\x65\x73\x75\x6c\x74\x22\x3e' + '\x3c\x75\x6c\x3e\x3c\x2f\x75\x6c\x3e' + '\x3c\x2f\x64\x69\x76\x3e';
+        return html;
+    }
+    function initRecordMap() {
+        let initRecordMap = new Map();
+        for (let key of statisticMap["\x6b\x65\x79\x73"]()) {
+            initRecordMap["\x73\x65\x74"](key, 0);
+        }
+        return initRecordMap;
+    }
+    function assignExecute() {
+        addKeyNum = 0;
+        resolveKeyNum = 0;
+        score = 0;
+        getWay = 0;
+        assignFlag = false;
+        recordMap = initRecordMap();
+        let prop = $("\x23\x61\x73\x73\x69\x67\x6e\x2d\x73\x65\x6c\x65\x63\x74 \x6f\x70\x74\x69\x6f\x6e\x3a\x73\x65\x6c\x65\x63\x74\x65\x64")["\x76\x61\x6c"]();
+        let assignNum = $("\x23\x61\x73\x73\x69\x67\x6e\x2d\x6e\x75\x6d")["\x76\x61\x6c"]();
+        if ("\x2d\x2d\x2d\u8bf7\u9009\u62e9\x2d\x2d\x2d" === prop) {
+            msg("\u8bf7\u9009\u62e9\u9053\u5177");
+        } else if (!exchangeMap["\x68\x61\x73"](prop)) {
+            msg("\u5956\u6c60\u4e2d\u4e0d\u5b58\u5728\u8be5\u9053\u5177");
+        } else {
+            openLoad();
+            setTimeout(function() {
+                    while (!assignFlag) {
+                        addKeyNum++;
+                        assignDraw(prop);
+                        if (getWay === 1) {
+                            assignFlag = true;
+                        }
+                        if (getWay === 2) {
+                            assignFlag = true;
+                        }
+                    }
+                    closeLoad();
+                    openShade();
+                    let html = '\x3c\x6c\x69\x3e\x3c\x73\x70\x61\x6e\x3e' + (++assignIndex) + '\u3001\x3c\x2f\x73\x70\x61\x6e\x3e' + '\x3c\x73\x70\x61\x6e\x3e\u6dfb\u52a0\x3a' + addKeyNum + '\x3c\x2f\x73\x70\x61\x6e\x3e' + '\x3c\x73\x70\x61\x6e\x3e\u5206\u89e3\x3a' + resolveKeyNum + '\x3c\x2f\x73\x70\x61\x6e\x3e' + '\x3c\x73\x70\x61\x6e\x3e\u79ef\u5206\x3a' + score + '\x3c\x2f\x73\x70\x61\x6e\x3e' + '\x3c\x73\x70\x61\x6e\x3e\u6d88\u8017\x3a' + (addKeyNum * 10) + '\uffe5\x3c\x2f\x73\x70\x61\x6e\x3e' + (getWay === 1 ? "\x3c\x73\x70\x61\x6e \x73\x74\x79\x6c\x65\x3d\"\x63\x6f\x6c\x6f\x72\x3a \x67\x72\x65\x65\x6e\"\x3e\u62bd\x3c\x2f\x73\x70\x61\x6e\x3e": "\x3c\x73\x70\x61\x6e \x73\x74\x79\x6c\x65\x3d\"\x63\x6f\x6c\x6f\x72\x3a \x72\x65\x64\"\x3e\u5151\x3c\x2f\x73\x70\x61\x6e\x3e") + '\u5151\x3c\x2f\x73\x70\x61\x6e\x3e' + '\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x61\x73\x73\x69\x67\x6e\x2d\x72\x65\x63\x6f\x72\x64\x22 \x6f\x6e\x63\x6c\x69\x63\x6b\x3d\x22\x76\x69\x65\x77\x41\x73\x73\x69\x67\x6e\x52\x65\x63\x6f\x72\x64\x28' + assignIndex + '\x29\x22\x3e\u67e5\u770b\u7edf\u8ba1\x3c\x2f\x73\x70\x61\x6e\x3e' + '\x3c\x2f\x6c\x69\x3e';
+                    $("\x23\x61\x73\x73\x69\x67\x6e\x2d\x72\x65\x73\x75\x6c\x74 \x3e \x75\x6c")["\x61\x70\x70\x65\x6e\x64"](html);
+                    var aaFHhjCcj12 = {
+                        index: assignIndex,
+                        addKeyNum: addKeyNum,
+                        resolveKeyNum: resolveKeyNum,
+                        score: score,
+                        getWay: getWay
+                    };
+                    assignResultMap["\x73\x65\x74"](assignIndex, aaFHhjCcj12);
+                    recordAllMap["\x73\x65\x74"](assignIndex, recordMap);
+                },
+                model === 1 ? 0 : 800);
+        }
+    }
+    function assignDraw(Ezzyqg13) {
+        let random = window["\x4d\x61\x74\x68"]["\x63\x65\x69\x6c"](window["\x4d\x61\x74\x68"]["\x72\x61\x6e\x64\x6f\x6d"]() * 10000);
+        for (j = 0; j < dynamicRate["\x6c\x65\x6e\x67\x74\x68"]; j++) {
+            var nhr$cTZM_14 = dynamicRate[j][0];
+            var sWQ15 = dynamicRate[j][1];
+            if (random >= nhr$cTZM_14 && random <= sWQ15) {
+                let prize = dynamicRate[j][2];
+                let prizeNum = recordMap["\x67\x65\x74"](prize);
+                prizeNum++;
+                recordMap["\x73\x65\x74"](prize, prizeNum);
+                if (Ezzyqg13 === prize) {
+                    getWay = 1;
+                    assignFlag = true;
+                } else if (destroyMap["\x68\x61\x73"](prize)) {
+                    let remainKey = destroyMap["\x67\x65\x74"](prize);
+                    resolveKeyNum += remainKey;
+                    for (let i = 0; i < remainKey; i++) {
+                        assignDraw(Ezzyqg13);
+                    }
+                } else if (scoreMap["\x68\x61\x73"](prize)) {
+                    score += scoreMap["\x67\x65\x74"](prize);
+                    let needScore = exchangeMap["\x67\x65\x74"](Ezzyqg13);
+                    if (score >= needScore) {
+                        if (getWay !== 1) getWay = 2;
+                        assignFlag = true;
+                    }
+                }
+            }
+        }
+    }
+    function assignAvg() {
+        openLoad();
+        setTimeout(function() {
+                closeLoad();
+                openShade();
+                let sum = 0;
+                for (let key of assignResultMap["\x6b\x65\x79\x73"]()) {
+                    let item = assignResultMap["\x67\x65\x74"](key);
+                    sum += (item["\x61\x64\x64\x4b\x65\x79\x4e\x75\x6d"] * 10);
+                }
+                let avg = sum / assignResultMap["\x73\x69\x7a\x65"];
+                avg = window["\x4d\x61\x74\x68"]["\x72\x6f\x75\x6e\x64"](avg);
+                let content = '\x3c\x70 \x73\x74\x79\x6c\x65\x3d\x22\x74\x65\x78\x74\x2d\x61\x6c\x69\x67\x6e\x3a \x63\x65\x6e\x74\x65\x72\x3b\x6d\x61\x72\x67\x69\x6e\x2d\x74\x6f\x70\x3a \x32\x30\x70\x78\x3b\x66\x6f\x6e\x74\x2d\x73\x69\x7a\x65\x3a \x31\x36\x70\x78\x22\x3e\u5171\u62bd\u51fa ' + assignResultMap["\x73\x69\x7a\x65"] + ' \u6b21\uff0c\u5747\u4ef7\u2248' + (isNaN(avg) ? 0 : avg) + '\uffe5\x3c\x2f\x70\x3e';
+                openDialog("\u62bd\u53d6\u5747\u4ef7", content);
+            },
+            model === 1 ? 0 : 1000);
+    }
+    function viewAssignRecord(CW16) {
+        setTimeout(function() {
+                let itemMap = recordAllMap["\x67\x65\x74"](CW16);
+                let num = 0;
+                for (let data of itemMap["\x6b\x65\x79\x73"]()) {
+                    let dataNum = itemMap["\x67\x65\x74"](data);
+                    num += dataNum;
+                }
+                let content = "\x3c\x64\x69\x76 \x63\x6c\x61\x73\x73\x3d\x27\x64\x72\x61\x77\x2d\x6e\x75\x6d\x27\x3e\u5171\u62bd\u53d6 " + num + " \u6b21\x3c\x2f\x64\x69\x76\x3e" + "\x3c\x75\x6c \x63\x6c\x61\x73\x73\x3d\x27\x64\x61\x74\x61\x2d\x6c\x69\x73\x74\x27\x3e";
+                for (let data of itemMap["\x6b\x65\x79\x73"]()) {
+                    let dataNum = itemMap["\x67\x65\x74"](data);
+                    var ACkIDkg17 = '\x3c\x6c\x69\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x64\x61\x74\x61\x2d\x6e\x61\x6d\x65\x22\x3e' + data + '\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x64\x61\x74\x61\x2d\x6e\x75\x6d\x22\x3e' + dataNum + ' \u4e2a\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x2f\x6c\x69\x3e';
+                    content += ACkIDkg17;
+                }
+                content += "\x3c\x2f\x75\x6c\x3e";
+                openDialogAssignData('\u62bd\u53d6\u7edf\u8ba1', content);
+            },
+            100);
+    }
+    function viewTempStore() {
+        setTimeout(function() {
+                var LqVidfsMo18 = getTempStoreHtml();
+                openDialogData('\u6682\u5b58\u7bb1', LqVidfsMo18);
+            },
+            100);
+    }
+    function getTempStoreHtml() {
+        var sOAgTWFPk19 = "\x3c\x75\x6c \x63\x6c\x61\x73\x73\x3d\x27\x74\x65\x6d\x70\x2d\x70\x72\x6f\x70\x2d\x6c\x69\x73\x74\x27\x3e";
+        for (let key of tempStore["\x6b\x65\x79\x73"]()) {
+            let tempProp = tempStore["\x67\x65\x74"](key);
+            var vnApXfRjL20 = '';
+            if (tempProp["\x73\x74\x61\x74\x75\x73"] === 0) {
+                vnApXfRjL20 = '\x3c\x6c\x69\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x74\x65\x6d\x70\x2d\x70\x72\x6f\x70\x2d\x6e\x61\x6d\x65\x22\x3e' + tempProp["\x6e\x61\x6d\x65"] + '\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x61 \x68\x72\x65\x66\x3d\x22\x6a\x61\x76\x61\x73\x63\x72\x69\x70\x74\x3a\x76\x6f\x69\x64 \x28\x30\x29\x3b\x22 \x63\x6c\x61\x73\x73\x3d\x22\x72\x65\x73\x6f\x6c\x76\x65\x22  \x6f\x6e\x63\x6c\x69\x63\x6b\x3d\x22\x64\x65\x63\x6f\x6d\x70\x6f\x73\x65\x28' + key + '\x29\x22\x3e\u5206\u89e3\x3c\x2f\x61\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x72\x65\x73\x6f\x6c\x76\x65\x2d\x6b\x65\x79\x2d\x6e\x75\x6d\x22\x3e' + tempProp["\x6b\x65\x79\x4e\x75\x6d"] + '\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x2f\x6c\x69\x3e';
+            } else {
+                vnApXfRjL20 = '\x3c\x6c\x69\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x74\x65\x6d\x70\x2d\x70\x72\x6f\x70\x2d\x6e\x61\x6d\x65\x22\x3e' + tempProp["\x6e\x61\x6d\x65"] + '\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x72\x65\x73\x6f\x6c\x76\x65\x22\x3e\u5df2\u5206\u89e3\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x73\x70\x61\x6e \x63\x6c\x61\x73\x73\x3d\x22\x72\x65\x73\x6f\x6c\x76\x65\x2d\x6b\x65\x79\x2d\x6e\x75\x6d\x22\x3e' + tempProp["\x6b\x65\x79\x4e\x75\x6d"] + '\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x2f\x6c\x69\x3e';
+            }
+            sOAgTWFPk19 += vnApXfRjL20;
+        }
+        sOAgTWFPk19 += "\x3c\x2f\x75\x6c\x3e";
+        return sOAgTWFPk19;
+    }
+    function openShade() {
+        $("\x23\x73\x68\x61\x64\x65")["\x73\x68\x6f\x77"]();
+        $("\x62\x6f\x64\x79")["\x63\x73\x73"]("\x6f\x76\x65\x72\x66\x6c\x6f\x77", "\x68\x69\x64\x64\x65\x6e");
+    }
+    function closeShade() {
+        $("\x23\x73\x68\x61\x64\x65")["\x68\x69\x64\x65"]();
+        $("\x62\x6f\x64\x79")["\x63\x73\x73"]("\x6f\x76\x65\x72\x66\x6c\x6f\x77", "\x61\x75\x74\x6f");
+    }
+    function openDialogData(QsnNgi21, aVP$fJJ22) {
+        if (QsnNgi21) $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61\x2d\x68\x69\x6e\x74")["\x74\x65\x78\x74"](QsnNgi21);
+        $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61\x2d\x63\x6f\x6e\x74\x65\x6e\x74")["\x68\x74\x6d\x6c"](aVP$fJJ22);
+        $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61")["\x73\x68\x6f\x77"]();
+        openShade()
+    }
+    function closeDialogData() {
+        $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61")["\x68\x69\x64\x65"]();
+        closeShade()
+    }
+    function openDialogAssignData(DCvJVjdcl23, vteDHOyA24) {
+        if (DCvJVjdcl23) $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61\x2d\x61\x73\x73\x69\x67\x6e\x2d\x68\x69\x6e\x74")["\x74\x65\x78\x74"](DCvJVjdcl23);
+        $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61\x2d\x61\x73\x73\x69\x67\x6e\x2d\x63\x6f\x6e\x74\x65\x6e\x74")["\x68\x74\x6d\x6c"](vteDHOyA24);
+        $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61\x2d\x61\x73\x73\x69\x67\x6e")["\x73\x68\x6f\x77"]();
+    }
+    function closeDialogAssignData() {
+        $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61\x2d\x61\x73\x73\x69\x67\x6e")["\x63\x73\x73"]("\x64\x69\x73\x70\x6c\x61\x79", "\x6e\x6f\x6e\x65");
+    }
+    function decompose(kFeaczsD25) {
+        let tempProp = tempStore["\x67\x65\x74"](kFeaczsD25);
+        if (tempProp["\x73\x74\x61\x74\x75\x73"] === 1) return window["\x61\x6c\x65\x72\x74"]("\u4e0d\u80fd\u91cd\u590d\u5206\u89e3");
+        let num = destroyMap["\x67\x65\x74"](tempProp["\x6e\x61\x6d\x65"]);
+        keyNum += num;
+        $("\x2e\x6b\x65\x79\x2d\x6e\x75\x6d")["\x74\x65\x78\x74"](keyNum);
+        tempProp["\x73\x74\x61\x74\x75\x73"] = 1;
+        var kZPtusI26 = getTempStoreHtml();
+        $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x64\x61\x74\x61\x2d\x63\x6f\x6e\x74\x65\x6e\x74")["\x68\x74\x6d\x6c"](kZPtusI26);
+    }
+    function openPrize10Dialog(NauRa$P27) {
+        $("\x23\x70\x72\x69\x7a\x65\x31\x30\x2d\x6c\x69\x73\x74")["\x68\x74\x6d\x6c"](NauRa$P27);
+        $("\x23\x70\x72\x69\x7a\x65\x31\x30\x2d\x64\x69\x61\x6c\x6f\x67")["\x73\x68\x6f\x77"]();
+        openShade();
+    }
+    function closePrize10Dialog() {
+        $("\x23\x70\x72\x69\x7a\x65\x31\x30\x2d\x64\x69\x61\x6c\x6f\x67")["\x68\x69\x64\x65"]();
+        closeShade();
+    }
+    function openPrize1Dialog(FJFKHAeLI28) {
+        $("\x23\x70\x72\x69\x7a\x65\x31\x2d\x6c\x69\x73\x74")["\x68\x74\x6d\x6c"](FJFKHAeLI28);
+        $("\x23\x70\x72\x69\x7a\x65\x31\x2d\x64\x69\x61\x6c\x6f\x67")["\x73\x68\x6f\x77"]();
+        openShade()
+    }
+    function closePrize1Dialog() {
+        $("\x23\x70\x72\x69\x7a\x65\x31\x2d\x64\x69\x61\x6c\x6f\x67")["\x68\x69\x64\x65"]();
+        closeShade()
+    }
+    function closeDialog() {
+        $("\x23\x64\x69\x61\x6c\x6f\x67")["\x68\x69\x64\x65"]();
+        closeShade()
+    }
+    function openDialog(mhaW$jzvQ29, lUVw30) {
+        if (mhaW$jzvQ29) $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x74\x69\x74\x6c\x65")["\x74\x65\x78\x74"](mhaW$jzvQ29);
+        $("\x23\x64\x69\x61\x6c\x6f\x67\x2d\x63\x6f\x6e\x74\x65\x6e\x74")["\x68\x74\x6d\x6c"](lUVw30);
+        $("\x23\x64\x69\x61\x6c\x6f\x67")["\x73\x68\x6f\x77"]();
+        openShade()
+    }
+    function openLoad() {
+        openShade();
+        $("\x23\x6c\x6f\x61\x64\x69\x6e\x67")["\x73\x68\x6f\x77"]();
+    }
+    function closeLoad() {
+        $("\x23\x6c\x6f\x61\x64\x69\x6e\x67")["\x68\x69\x64\x65"]();
+        closeShade();
+    }
+    function msg(skV31) {
+        let msg = $("\x23\x6d\x73\x67");
+        msg["\x73\x68\x6f\x77"]();
+        msg["\x74\x65\x78\x74"](skV31);
+        setTimeout(function() {
+                msg["\x68\x69\x64\x65"]();
+            },
+            2000);
+    }
+
+</script>
+</body>
+</html>
